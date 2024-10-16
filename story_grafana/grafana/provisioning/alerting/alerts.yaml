@@ -1,0 +1,247 @@
+apiVersion: 1
+groups:
+    - orgId: 1
+      name: Validator
+      folder: Validator
+      interval: 1m
+      rules:
+        - uid: de0c85wnjipdsb
+          title: Story Testnet Service Down
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                editorMode: code
+                expr: up{job="story_validator"}
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 1
+                        type: lt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: ee08zp29qhe68b
+          panelId: 3
+          noDataState: Alerting
+          execErrState: Alerting
+          for: 1m
+          annotations:
+            __dashboardUid__: ee08zp29qhe68b
+            __panelId__: "3"
+            description: Story Testnet {{ index $labels "ip" }} is down.
+            summary: Story Testnet Service Down
+          labels: {}
+          isPaused: false
+          notification_settings:
+            receiver: grafana-default-email
+        - uid: de0c94ipn2b5sf
+          title: Story Testnet Sync Stuck
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                editorMode: code
+                expr: increase(cometbft_consensus_latest_block_height{job="story_validator"}[1m])
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 2
+                        type: lt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: ee08zp29qhe68b
+          panelId: 4
+          noDataState: Alerting
+          execErrState: Alerting
+          for: 1m
+          annotations:
+            __dashboardUid__: ee08zp29qhe68b
+            __panelId__: "4"
+            description: Story Testnet {{ index $labels "ip" }} is stuck.
+            summary: Story Testnet Sync Stuck
+          labels: {}
+          isPaused: false
+          notification_settings:
+            receiver: grafana-default-email
+        - uid: de0c99mw51dkwb
+          title: Story Testnet Validator Uptime
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                editorMode: code
+                expr: ((avg(increase(cometbft_consensus_validator_last_signed_height{job="story_validator"}[5m])) by (chain)) / (avg(increase(cometbft_consensus_latest_block_height{job="story_validator"}[5m])) by (chain))) * 100
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 95
+                        type: lt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: ee08zp29qhe68b
+          panelId: 8
+          noDataState: Alerting
+          execErrState: Alerting
+          for: 1m
+          annotations:
+            __dashboardUid__: ee08zp29qhe68b
+            __panelId__: "8"
+            description: Story Testnet Validator Uptime is below 95%
+            summary: Story Testnet Validator Uptime
+          labels: {}
+          isPaused: false
+          notification_settings:
+            receiver: grafana-default-email
+        - uid: fe0c9gj9i2ry8e
+          title: Story Validator Testnet Peer Status
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                editorMode: code
+                expr: cometbft_p2p_peers{job="story_validator"}
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 5
+                        type: lt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: ee08zp29qhe68b
+          panelId: 1
+          noDataState: Alerting
+          execErrState: Alerting
+          for: 1m
+          annotations:
+            __dashboardUid__: ee08zp29qhe68b
+            __panelId__: "1"
+            description: Story Validator Testnet {{ index $labels "ip" }} has less than 5 peers for more than 5 minutes.
+            summary: Story Validator Testnet Peer Status
+          labels: {}
+          isPaused: false
+          notification_settings:
+            receiver: grafana-default-email
