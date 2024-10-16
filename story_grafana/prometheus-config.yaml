@@ -1,0 +1,21 @@
+global:
+  scrape_interval: 30s
+
+scrape_configs:
+  - job_name: "story_validator"
+    static_configs:
+      - targets: ['127.0.0.1:26660']  # Tendermint's Prometheus metrics endpoint
+        labels:
+          region: "yourRegion"
+          chain: story
+          network: testnet
+          nodeType: validator
+          provider: "yourProvider"
+          ip: "yourIP"
+    metrics_path: '/metrics'  # Specify the metrics path
+
+  - job_name: 'node_exporter'  # Add Node Exporter job
+    static_configs:
+      - targets: ['localhost:9100']  # Node Exporter endpoint
+        labels:
+          ip: "yourIP"
