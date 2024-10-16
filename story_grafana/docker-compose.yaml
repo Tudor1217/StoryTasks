@@ -12,7 +12,7 @@ services:
     image: grafana/grafana:latest
     container_name: grafana
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=StoryTask3  # Change the password here
+      - GF_SECURITY_ADMIN_PASSWORD=admin  # Change the password here
     volumes:
       - grafana-storage:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning
